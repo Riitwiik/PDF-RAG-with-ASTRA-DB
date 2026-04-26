@@ -27,11 +27,12 @@ https://pdf-rag-with-astra-db-87.streamlit.app/
 
 ## 📸 Screenshots
 
-![Output 1](https://raw.githubusercontent.com/Riitwiik/Math-Reasoning-Solver/main/output1.png)
+![Output 1](https://raw.githubusercontent.com/Riitwiik/PDF-RAG-with-ASTRA-DB/main/output1.png)
 
-![Output 2](https://raw.githubusercontent.com/Riitwiik/Math-Reasoning-Solver/main/output2.png)
+![Output 2](https://raw.githubusercontent.com/Riitwiik/PDF-RAG-with-ASTRA-DB/main/output2.png)
 
-![Output 3](https://raw.githubusercontent.com/Riitwiik/Math-Reasoning-Solver/main/output3.png)
+![Output 3](https://raw.githubusercontent.com/Riitwiik/PDF-RAG-with-ASTRA-DB/main/output3.png)
+
 
 🏗️ Tech Stack
 
