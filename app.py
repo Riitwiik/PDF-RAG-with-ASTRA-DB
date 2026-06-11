@@ -12,11 +12,11 @@ from langchain_groq import ChatGroq
 from langchain.chains import RetrievalQA
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-# ------------------ CONFIG ------------------
+
 st.set_page_config(page_title="PDF Q&A App", layout="wide")
 st.title("📄 Chat with your PDF (Groq + AstraDB)")
 
-# ------------------ LOAD ENV ------------------
+
 load_dotenv()
 
 ASTRA_DB_APPLICATION_TOKEN = os.getenv("ASTRA_DB_APPLICATION_TOKEN")
@@ -27,7 +27,7 @@ if not ASTRA_DB_APPLICATION_TOKEN or not ASTRA_DB_ID or not GROQ_API_KEY:
     st.error("❌ Missing environment variables.")
     st.stop()
 
-# ------------------ INIT DB ------------------
+
 @st.cache_resource
 def init_db():
     cassio.init(
@@ -37,7 +37,7 @@ def init_db():
 
 init_db()
 
-# ------------------ LOAD MODELS ------------------
+
 @st.cache_resource
 def load_models():
     embedding = HuggingFaceEmbeddings(
@@ -54,7 +54,7 @@ def load_models():
 
 embedding, llm = load_models()
 
-# ------------------ GLOBAL VECTOR STORE ------------------
+
 @st.cache_resource
 def get_vector_store():
     return Cassandra(
@@ -64,14 +64,14 @@ def get_vector_store():
 
 vector_store = get_vector_store()
 
-# ------------------ SESSION INIT ------------------
+
 if "processed_files" not in st.session_state:
     st.session_state.processed_files = set()
 
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
-# ------------------ FILE UPLOAD ------------------
+
 uploaded_file = st.file_uploader("Upload your PDF", type="pdf")
 
 if uploaded_file:
@@ -79,7 +79,7 @@ if uploaded_file:
     file_bytes = uploaded_file.getvalue()
     file_hash = hashlib.md5(file_bytes).hexdigest()
 
-    # ------------------ PROCESS PDF ------------------
+    
     if file_hash not in st.session_state.processed_files:
 
         with st.spinner("Processing PDF..."):
@@ -132,7 +132,7 @@ if uploaded_file:
     else:
         st.info("📌 PDF already processed. Ready to query!")
 
-    # ------------------ RETRIEVER ------------------
+    
     retriever = vector_store.as_retriever(
         search_kwargs={
             "k": 6,
@@ -146,7 +146,7 @@ if uploaded_file:
         return_source_documents=True
     )
 
-    # ------------------ CHAT ------------------
+    
     query = st.text_input("Ask a question:")
 
     if query:
@@ -169,7 +169,7 @@ if uploaded_file:
             except Exception as e:
                 st.error(f"❌ Error generating answer: {str(e)}")
 
-    # ------------------ CHAT HISTORY ------------------
+    
     if st.session_state.chat_history:
         st.subheader("🧠 Chat History")
         for q, a in st.session_state.chat_history[::-1]:
